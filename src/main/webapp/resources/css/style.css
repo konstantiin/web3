@@ -1,0 +1,77 @@
+html, body {
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: 1%;
+
+}
+tr th{
+    text-align: start;
+    font-family: verdana,sans-serif;
+    font-size: larger;
+    font-weight: normal;
+    color: #3b5998;
+}
+.draw{
+    width: 55%;
+    height: 80vh;
+}
+#graph{
+    width: 90%;
+    height: 100%;
+}
+.input{
+    width: 10%;
+    height:90%;
+}
+.logs{
+    width: 35%;
+    height: 90%;
+    vertical-align: top;
+}
+td {
+    font-weight: bold;
+    text-align: start;
+    font-size: large;
+}
+input[type = "button"]{
+    min-width: 2.5em;
+    padding: 0 0.7em;
+    margin: 0.5em 0.5em 0;
+    height: 1.5em;
+}
+input[type = "button"]:hover{
+    background-color: lavender;
+}
+.selected_x{
+    background-color: lavender;
+    min-width: 2.5em;
+    padding: 0 0.7em;
+    margin: 0.5em 0.5em 0;
+    height: 1.5em;
+}
+input[type = "text"]{
+    margin-bottom: 1em;
+}
+input[type = "text"]:valid {
+    background-color: #d5fcd5;
+}
+
+input[type = "text"]:invalid {
+    background-color: #fcdadf;
+}
+#result_table{
+    height: 10%;
+}
+.result_header{
+    font-weight: bold;
+    text-align: start;
+    font-size: medium;
+    color: black;
+
+}
+.result_table{
+    vertical-align: top;
+}
