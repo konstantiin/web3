@@ -94,7 +94,7 @@
             </td>
             <td>
                 <h:outputText id = "output" value = "#{reqBean.isInside()}"/>
-                <h:dataTable id = "resultTable" value="#{resultsBean.results}" var="result">
+                <h:dataTable id = "resultTable" value="#{resultsBean.getAll()}" var="result">
                     <h:column>
                         <f:facet name = "header">X</f:facet>
                         #{result.x}
@@ -109,7 +109,7 @@
                     </h:column>
                     <h:column>
                         <f:facet name = "header">success</f:facet>
-                        #{result.inArea ? "ok" : "not ok"}
+                        #{result.isInside() ? "ok" : "not ok"}
                     </h:column>
                 </h:dataTable>
             </td>
