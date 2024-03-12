@@ -24,12 +24,12 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
-
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <version>4.0.1</version>
         </dependency>
+
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
@@ -40,6 +40,7 @@
             <artifactId>jakarta.ejb-api</artifactId>
             <version>4.0.1</version>
         </dependency>
+
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
@@ -49,7 +50,6 @@
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <version>9.0.0</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.json</groupId>
@@ -61,23 +61,32 @@
             <artifactId>jakarta.json.bind-api</artifactId>
             <version>3.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>jakarta.faces</groupId>
-            <artifactId>jakarta.faces-api</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>5.0.0</version>
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>14.0.0-RC1</version>
+            <version>13.0.0</version>
+            <classifier>jakarta</classifier>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>jakarta.servlet</groupId>-->
+<!--            <artifactId>jakarta.servlet-api</artifactId>-->
+<!--            <version>5.0.0</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>com.sun.faces</groupId>-->
+<!--            <artifactId>jsf-api</artifactId>-->
+<!--            <version>2.1.7</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.sun.faces</groupId>-->
+<!--            <artifactId>jsf-impl</artifactId>-->
+<!--            <version>2.2.20</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>
@@ -98,13 +107,6 @@
                         <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
                         </goals>
                     </execution>
                 </executions>

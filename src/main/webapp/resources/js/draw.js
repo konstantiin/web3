@@ -1,6 +1,7 @@
 let canvas = document.getElementById("graph"),
     ctx = canvas.getContext('2d');
-
+console.log(canvas)
+console.log(ctx)
 canvas.height *= 10;
 canvas.width *= 10;
 let w = canvas.width, h = canvas.height;
@@ -14,6 +15,7 @@ function drawYAxis(){
     // y axis
     ctx.beginPath();
     ctx.moveTo(w / 2, 10);
+
     ctx.lineTo(w / 2 - 15, 30);
     ctx.moveTo(w / 2, 10);
     ctx.lineTo(w / 2 + 15, 30);

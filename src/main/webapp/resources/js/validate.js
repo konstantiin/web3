@@ -6,38 +6,35 @@ let selected_x;
 let lastReq = null;
 
 redrawGraph(r_value, zoom);
-// r_selector = $(".r");
-// selected_x = $(".selected_x");
-// //slider = document.getElementById("resize_slider");
-//
-// function resize(){
-//     //alert(slider.value);
-//     zoom = 1 + slider.value/30;
-//     redrawGraph(r_value, zoom);
-// }
-//
-// slider.addEventListener("change",resize);
-//
-//
-//
-// $(".x").click(function() {
-//
-//     selected_x.prop("class", "x");
-//     $(this).prop("class", "selected_x");
-//     $("#x_value").attr("value", $(this).attr("value"));
-//     selected_x = $(this)
-// });
-// r_selector.on("change", function() {
-//     r_value = $(this).val();
-//     if ($(this).is(":invalid")){
-//         generateError();
-//         return;
-//     }
-//     redrawGraph(r_value, zoom);
-// });
-// function generateError(){
-//     alert("ฅ^•ﻌ•^ฅ  \n R value must be an integer between 0 and 5 \n ฅ^•ﻌ•^ฅ");
-// }
+r_selector = document.getElementsByClassName("r")[0];
+console.log(r_selector);
+slider = document.getElementById("resize_slider");
+
+function isNumeric(x) {
+    return !isNaN(parseFloat(x)) && isFinite(x);
+}
+function generateError(){
+    alert("ฅ^•ﻌ•^ฅ  \n R value must be an integer between 0 and 5 \n ฅ^•ﻌ•^ฅ");
+}
+function resize(){
+    //alert(slider.value);
+    zoom = 1 + slider.value/30;
+    redrawGraph(r_value, zoom);
+}
+
+slider.addEventListener("change",resize);
+
+r_selector.addEventListener("change", function() {
+    r_value = r_selector.value;
+    if (!isNumeric(r_value) ||parseFloat(r_value) < 0 || parseFloat(r_value) > 5){
+        console.log("R wrong");
+        generateError();
+    }
+    else{
+        redrawGraph(r_value, zoom);
+    }
+});
+
 // function validate(){
 //     console.log("validation ...");
 //     const re = new RegExp("[0-5]");

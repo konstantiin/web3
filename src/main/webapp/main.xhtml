@@ -4,14 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
+
     <h:head>
+        <meta http-equiv="Content-Type" content="text/html" />
         <h:outputStylesheet library="css" name="style.css"/>
         <title>Web 3</title>
-        <h:outputStylesheet name="css/style.css"/>
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </h:head>
     <h:body>
     <table>
@@ -28,67 +28,93 @@
         </tr>
 
         <tr >
-
             <td class = "draw">
-                <!--
-                <input id="resize_slider" type="range" min="-20" max="30" value="0" class="slider" > <br>
-                -->
+                <input id="resize_slider" type="range" min="-20" max="30" value="0" class="slider" /> <br/>
+
                 <canvas class="areas" id="graph" ></canvas>
 
             </td>
-            <!--
+
+
+
             <td class = "input">
-                <form id = "input_form" method = "post" onsubmit = "return validate()" action = "${pageContext.request.contextPath}/control">
+                <h:form id = "input_form">
+
                     <div>
                         <b>Input x:</b>
                         <div>
-                            <input type = "hidden" id = "x_value" name = "x_coordinate"  value="0">
-                            <input  type="button" class="x" value="-4" ><br>
-                            <input  type="button" class="x" value="-2"><br>
-                            <input  type="button" class="x" value="-3"><br>
-                            <input  type="button" class="x" value="-1"><br>
-                            <input  type="button" class="x selected_x"  value="0"><br>
-                            <input  type="button" class="x" value="1"><br>
-                            <input  type="button" class="x" value="2"><br>
-                            <input  type="button" class="x" value="3"><br>
-                            <input  type="button" class="x" value="4"><br>
+                                <h:selectOneMenu id="x-value" value="#{reqBean.x}">
+                                <f:selectItem itemLabel="-4" itemValue="-4"/>
+                                <f:selectItem itemLabel="-3" itemValue="-3"/>
+                                <f:selectItem itemLabel="-2" itemValue="-2"/>
+                                <f:selectItem itemLabel="-1" itemValue="-1"/>
+                                <f:selectItem itemLabel="0" itemValue="0"/>
+                                <f:selectItem itemLabel="1" itemValue="1"/>
+                                <f:selectItem itemLabel="2" itemValue="2"/>
+                                <f:selectItem itemLabel="3" itemValue="3"/>
+                                <f:selectItem itemLabel="4" itemValue="4"/>
+
+                            </h:selectOneMenu>
                         </div>
+
                     </div>
                     <div>
                         <b>Input y:</b>
-                        <div>
-                            <input  type="radio" name="y_coordinate" class="y" value="-5" > -5<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="-4"> -4<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="-3"> -3<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="-2"> -2<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="-1"> -1<br>
-                            <input  type="radio" name="y_coordinate" class="y" value= "0" checked> 0<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="1"> 1<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="2"> 2<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="3"> 3<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="4"> 4<br>
-                            <input  type="radio" name="y_coordinate" class="y" value="5"> 5<br>
-                        </div>
+                        <h:selectOneRadio value = "#{reqBean.y}">
+                            <f:selectItem  itemLabel="-5" itemValue="-5"/>
+                            <f:selectItem  itemLabel="-4" itemValue="-4"/>
+                            <f:selectItem  itemLabel="-3" itemValue="-3"/>
+                            <f:selectItem  itemLabel="-2" itemValue="-2"/>
+                            <f:selectItem  itemLabel="-1" itemValue="-1"/>
+                            <f:selectItem  itemLabel="0" itemValue= "0"/>
+                            <f:selectItem  itemLabel="1" itemValue="1"/>
+                            <f:selectItem  itemLabel="2" itemValue="2"/>
+                            <f:selectItem  itemLabel="3" itemValue="3"/>
+                            <f:selectItem  itemLabel="4" itemValue="4"/>
+                            <f:selectItem  itemLabel="5" itemValue="5"/>
+                        </h:selectOneRadio>
                     </div>
+
                     <div>
                         <b>Input R:</b>
-                        <div>
-                            <input  type="text" pattern="[0-5]" name = "r_coordinate" class = "r" value = "3">
-                        </div>
+                        <h:inputText value="#{reqBean.r}" name = "r_coordinate" class = "r" id = "r">
+<!--                            <f:validateRequired/>-->
+<!--                            <f:validateDoubleRange minimum="0" maximum="5"/>-->
+                        </h:inputText>
                     </div>
+
+
                     <div>
-                        <input type="submit" value="check">
+                        <h:commandButton value="Check">
+                           <f:ajax execute="@form" listener="#{resultsBean.addReq(reqBean)}" render="@form resultTable drawPoints" />
+                        </h:commandButton>
+
                     </div>
-                </form>
-
+                </h:form>
+            </td>
+            <td>
+                <h:outputText id = "output" value = "#{reqBean.isInside()}"/>
+                <h:dataTable id = "resultTable" value="#{resultsBean.results}" var="result">
+                    <h:column>
+                        <f:facet name = "header">X</f:facet>
+                        #{result.x}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Y</f:facet>
+                        #{result.y}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">R</f:facet>
+                        #{result.r}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">success</f:facet>
+                        #{result.inArea ? "ok" : "not ok"}
+                    </h:column>
+                </h:dataTable>
             </td>
 
-            <td class = "logs" >
-                <div >
-                    <jsp:include page="table.jsp" />
-                </div>
-            </td>
-            -->
+
         </tr>
         <tr>
             <th class = "footer"> ITMO, 2023</th>
@@ -100,10 +126,11 @@
 <!--    <script src="js/dot.js"> </script>-->
 <!--    <script src="js/draw.js"> </script>-->
 <!--    <script src ="js/validate.js"></script>-->
+
         <h:outputScript library="js" name="dot.js"/>
         <h:outputScript library="js" name="draw.js" />
+        <h:outputScript library="js" name="validate.js" />
 
 </h:body>
 
-</f:view>
 </html>
