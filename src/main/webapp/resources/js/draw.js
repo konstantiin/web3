@@ -1,15 +1,12 @@
-let canvas = document.getElementById("graph"),
-    ctx = canvas.getContext('2d');
-console.log(canvas)
-console.log(ctx)
-canvas.height *= 10;
-canvas.width *= 10;
-let w = canvas.width, h = canvas.height;
-let hatchGapHor, hatchGapVer;
-console.log(w);
-console.log(h);
+let canvas, ctx;
 
-const baseHatchGap= w/16 ;
+let w, h;
+
+let hatchGapHor, hatchGapVer;
+
+
+let baseHatchGap;
+let axisFontSize;
 
 function drawYAxis(){
     // y axis
@@ -157,7 +154,7 @@ function redrawGraph(rad, factor) {
 
 
     // print labels
-    const axisFontSize = baseHatchGap/5;
+    axisFontSize = baseHatchGap/5;
     ctx.fillStyle = 'black';
     ctx.font = ` ${axisFontSize * 1.4}px Roboto`;
     ctx.fillText('y', w / 2 - hatchWidth * 2.8, 40);

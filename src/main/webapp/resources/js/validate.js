@@ -1,15 +1,42 @@
 let slider;
 let zoom = 1;
-let r_value = 3
-let r_selector;
-let selected_x;
+let r_value = 0
 let lastReq = null;
 
-redrawGraph(r_value, zoom);
-r_selector = document.getElementsByClassName("r")[0];
-console.log(r_selector);
-slider = document.getElementById("resize_slider");
+document.addEventListener('DOMContentLoaded', function() {
+    canvas = document.getElementById("graph");
+    ctx = canvas.getContext('2d');
+    canvas.height *= 10;
+    canvas.width *= 10;
+    w = canvas.width;
+    h = canvas.height;
 
+    baseHatchGap= w/16 ;
+    axisFontSize = baseHatchGap/5;
+    redrawGraph(r_value, zoom);
+
+    slider = document.getElementById("resize_slider");
+
+    slider.addEventListener("change",resize);
+    canvas.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        getCursorPosition(canvas, e)
+    });
+})
+
+function rListener() {
+    let r_selector = document.getElementsByClassName("r")[0];
+    r_value = r_selector.value;
+    console.log(r_selector)
+    console.log(r_value)
+    if (!isNumeric(r_value) ||parseFloat(r_value) < 0 || parseFloat(r_value) > 5){
+        console.log("R wrong");
+        generateError();
+    }
+    else{
+        redrawGraph(r_value, zoom);
+    }
+}
 function isNumeric(x) {
     return !isNaN(parseFloat(x)) && isFinite(x);
 }
@@ -22,94 +49,27 @@ function resize(){
     redrawGraph(r_value, zoom);
 }
 
-slider.addEventListener("change",resize);
+function getCursorPosition(canvas, event) {
+    const rect = canvas.getBoundingClientRect()
+    let x = event.clientX - rect.left
+    //let y = event.clientY - rect.top
+    let y = rect.bottom - event.clientY
+    y = y/(rect.bottom - rect.top) * h
+    x = x /(rect.right - rect.left)* w;
+    y = h - y;
 
-r_selector.addEventListener("change", function() {
-    r_value = r_selector.value;
-    if (!isNumeric(r_value) ||parseFloat(r_value) < 0 || parseFloat(r_value) > 5){
-        console.log("R wrong");
-        generateError();
-    }
-    else{
-        redrawGraph(r_value, zoom);
-    }
-});
 
-// function validate(){
-//     console.log("validation ...");
-//     const re = new RegExp("[0-5]");
-//     if (!re.test(r_selector.attr("value"))){
-//         generateError();
-//         console.log("failed");
-//         return false;
-//     }
-//     console.log("success");
-//     return true;
-// }
-// function successful(data){
-//     console.log(data);
-//
-//     $(".validate_button").attr("disabled", false);
-//
-//
-//     $("#result_table").html(data);
-//     lastReq = new Dot($("#last_x").text(), $("#last_y").text(), $("#last_res").text());
-//     redrawGraph(r_value, zoom);
-// }
-// function error_ajax(error){
-//     console.log(error);
-//     $(".validate_button").attr("disabled", false);
-// }
-// function getCursorPosition(canvas, event) {
-//     const rect = canvas.getBoundingClientRect()
-//     let x = event.clientX - rect.left
-//     //let y = event.clientY - rect.top
-//     let y = rect.bottom - event.clientY
-//     y = y/(rect.bottom - rect.top) * h
-//     x = x /(rect.right - rect.left)* w;
-//     y = h - y;
-//
-//
-//     y = (h/2 - y);
-//     x -= w/2
-//
-//
-//     x/= (hatchGapHor*2)
-//     y /= (hatchGapVer*2)
-//     x = x.toFixed(2)
-//     y = y.toFixed(2)
-//     console.log("x: " + x + " y: " + y)
-//     $.ajax({
-//         url: 'control',     method: "post",
-//         data: `&x_coordinate=${x}&y_coordinate=${y}&r_coordinate=${r_value}&timezone=${new Date().getTimezoneOffset()}`,
-//         dataType: "html",
-//
-//         success: successful,
-//         error: error_ajax,
-//     });
-//     //y = y / rect.top * h;
-//
-//
-// }
-// canvas.addEventListener('mousedown', function(e) {
-//     e.preventDefault();
-//     getCursorPosition(canvas, e)
-// })
-// $("#input_form").on("submit", function(event){
-//     event.preventDefault();
-//
-//     if(!validate()){
-//         return
-//     }
-//
-//
-//     $(".validate_button").attr("disabled", true);
-//     $.ajax({
-//         url: 'control',     method: "post",
-//         data: $(this).serialize() + `&timezone=${new Date().getTimezoneOffset()}`,
-//         dataType: "html",
-//
-//         success: successful,
-//         error: error_ajax,
-//     });
-// });
+    y = (h/2 - y);
+    x -= w/2
+
+
+    x/= (hatchGapHor*2)
+    y /= (hatchGapVer*2)
+    x = x.toFixed(2)
+    y = y.toFixed(2)
+    console.log("x: " + x + " y: " + y)
+}
+function setLastReq(x, y, isOk){
+    lastReq = {x: parseFloat(x), y: parseFloat(y), inside: isOk === "true"}
+    redrawGraph(r_value, zoom)
+}

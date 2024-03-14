@@ -45,7 +45,7 @@ class ReqBean : Serializable {
         return x <= 0 && y >= 0 && y <= r/2 && x >= -r
     }
     private fun inThirdQuarter(): Boolean{
-        return x <=0 && y <= 0 && x*x + y*y <= r
+        return x <=0 && y <= 0 && x*x + y*y <= r*r
     }
     private fun inForthQuarter(): Boolean{
         return false;

@@ -4,8 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html" />
@@ -37,10 +36,10 @@
 
 
 
-            <td class = "input">
+            <td class = "input column">
                 <h:form id = "input_form">
 
-                    <div>
+                    <div class = "input-data">
                         <b>Input x:</b>
                         <div>
                                 <h:selectOneMenu id="x-value" value="#{reqBean.x}">
@@ -58,7 +57,7 @@
                         </div>
 
                     </div>
-                    <div>
+                    <div class = "input-data">
                         <b>Input y:</b>
                         <h:selectOneRadio value = "#{reqBean.y}">
                             <f:selectItem  itemLabel="-5" itemValue="-5"/>
@@ -75,16 +74,17 @@
                         </h:selectOneRadio>
                     </div>
 
-                    <div>
+                    <div class = "input-data">
                         <b>Input R:</b>
-                        <h:inputText value="#{reqBean.r}" name = "r_coordinate" class = "r" id = "r">
-<!--                            <f:validateRequired/>-->
-<!--                            <f:validateDoubleRange minimum="0" maximum="5"/>-->
+                        <h:inputText value="#{reqBean.r}" name = "r_coordinate" class = "r" id = "r" onchange="rListener()">
+                            <f:validateRequired/>
+                            <f:validateDoubleRange minimum="0" maximum="5"/>
+
                         </h:inputText>
                     </div>
 
 
-                    <div>
+                    <div class = "input-data">
                         <h:commandButton value="Check">
                            <f:ajax execute="@form" listener="#{resultsBean.addReq(reqBean)}" render="@form resultTable drawPoints" />
                         </h:commandButton>
@@ -92,9 +92,15 @@
                     </div>
                 </h:form>
             </td>
-            <td>
-                <h:outputText id = "output" value = "#{reqBean.isInside()}"/>
-                <h:dataTable id = "resultTable" value="#{resultsBean.getAll()}" var="result">
+            <td class = "column">
+                <h:panelGroup id = "drawPoints">
+                    <h:outputScript>
+                        setLastReq('#{resultsBean.resultList.isEmpty() ? "none" : resultsBean.resultList.get(resultsBean.resultList.size()-1).x}',
+                            '#{resultsBean.resultList.isEmpty() ? "none" : resultsBean.resultList.get(resultsBean.resultList.size()-1).y}',
+                            '#{resultsBean.resultList.isEmpty() ? "none" : resultsBean.resultList.get(resultsBean.resultList.size()-1).isInside()}');
+                    </h:outputScript>
+                </h:panelGroup>
+                <h:dataTable id = "resultTable" value="#{resultsBean.resultList}" var="result">
                     <h:column>
                         <f:facet name = "header">X</f:facet>
                         #{result.x}
@@ -111,6 +117,8 @@
                         <f:facet name = "header">success</f:facet>
                         #{result.isInside() ? "ok" : "not ok"}
                     </h:column>
+
+
                 </h:dataTable>
             </td>
 
@@ -122,10 +130,7 @@
 
     </table>
 
-<!--    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
-<!--    <script src="js/dot.js"> </script>-->
-<!--    <script src="js/draw.js"> </script>-->
-<!--    <script src ="js/validate.js"></script>-->
+
 
         <h:outputScript library="js" name="dot.js"/>
         <h:outputScript library="js" name="draw.js" />
