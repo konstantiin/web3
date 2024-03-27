@@ -20,7 +20,7 @@ class ResultsBean: Serializable{
     private var logger: Logger = Logger.getLogger(ResultsBean::class.java.getName())
     private var resultList: List<ReqBean> = ArrayList<ReqBean>()
     fun getResultList(): List<ReqBean>{
-        if (resultList.size > 20){
+        while (resultList.size > 20){
             resultList = resultList.drop(1)
 
         }
@@ -30,7 +30,7 @@ class ResultsBean: Serializable{
         isConnected = true
         Class.forName("org.postgresql.Driver");
         Db = DriverManager.getConnection(
-            "jdbc:postgresql://localhost:5432/web",
+            "jdbc:postgresql://postgres:5432/web",
             "367363",
             "pass"
         )// cringe ofk need to be changed

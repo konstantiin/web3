@@ -10,3 +10,16 @@ services:
       - ./psql:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
+    networks:
+        - app
+  web-server:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - app
+networks:
+  app:
+    driver: bridge
